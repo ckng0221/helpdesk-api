@@ -2,7 +2,7 @@ on:
   push:
     branches: ['main']
     paths-ignore:
-      - 'REAME.md'
+      - '**/**.md'
 
   workflow_dispatch:
 
