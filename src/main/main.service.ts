@@ -5,6 +5,17 @@ import { CreateFactoryDto, UpdateFactoryDto } from './dto/factory.dto';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { Factory, User } from './schemas/main.schema';
 
+// Use `map` to get a new array with new objects
+function getNonNullObject(obj: object) {
+  return Object.keys(obj).reduce((newObj, key) => {
+    const value = obj[key];
+    if (value !== null && value !== undefined) {
+      newObj[key] = value;
+    }
+    return newObj;
+  }, {});
+}
+
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
@@ -14,8 +25,10 @@ export class UserService {
     return createdUser.save();
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+  async findAll(queryParams: object): Promise<User[]> {
+    const filterOptions = getNonNullObject(queryParams);
+
+    return this.userModel.find(filterOptions).exec();
   }
 
   async findOne(id: string): Promise<User> {
@@ -44,8 +57,10 @@ export class FactoryService {
     return createdFactory.save();
   }
 
-  async findAll(): Promise<Factory[]> {
-    return this.factoryModel.find().exec();
+  async findAll(queryParams: object): Promise<Factory[]> {
+    const filterOptions = getNonNullObject(queryParams);
+
+    return this.factoryModel.find(filterOptions).exec();
   }
 
   async findOne(id: string): Promise<Factory> {

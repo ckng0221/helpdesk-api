@@ -6,8 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { CreateFactoryDto, UpdateFactoryDto } from './dto/factory.dto';
 import { FactoryService, UserService } from './main.service';
@@ -26,8 +27,25 @@ export class UserController {
   }
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  @ApiQuery({
+    name: 'erp_name',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'name',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'email',
+    required: false,
+  })
+  findAll(
+    @Query('erp_name') erp_name: string,
+    @Query('name') name: string,
+    @Query('email') email: string,
+  ) {
+    const queryParams = { erp_name, name, email };
+    return this.userService.findAll(queryParams);
   }
 
   @Get(':id')
@@ -60,8 +78,18 @@ export class FactoryController {
   }
 
   @Get()
-  findAll() {
-    return this.factoryService.findAll();
+  @ApiQuery({
+    name: 'fac_code',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'name',
+    required: false,
+  })
+  findAll(@Query('fac_code') fac_code: string, @Query('name') name: string) {
+    const queryParams = { fac_code, name };
+
+    return this.factoryService.findAll(queryParams);
   }
 
   @Get(':id')
