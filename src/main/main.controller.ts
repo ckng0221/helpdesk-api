@@ -40,9 +40,9 @@ export class UserController {
     required: false,
   })
   findAll(
-    @Query('erp_name') erp_name: string,
-    @Query('name') name: string,
-    @Query('email') email: string,
+    @Query('erp_name') erp_name?: string,
+    @Query('name') name?: string,
+    @Query('email') email?: string,
   ) {
     const queryParams = { erp_name, name, email };
     return this.userService.findAll(queryParams);
@@ -86,7 +86,7 @@ export class FactoryController {
     name: 'name',
     required: false,
   })
-  findAll(@Query('fac_code') fac_code: string, @Query('name') name: string) {
+  findAll(@Query('fac_code') fac_code?: string, @Query('name') name?: string) {
     const queryParams = { fac_code, name };
 
     return this.factoryService.findAll(queryParams);

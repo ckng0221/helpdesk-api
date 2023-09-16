@@ -1,57 +1,87 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserController } from './main.controller';
-import { UserService } from './main.service';
+import { FactoryController, UserController } from './main.controller';
+import { FactoryService, UserService } from './main.service';
 import { getModelToken } from '@nestjs/mongoose';
-import { User } from './schemas/main.schema';
+import { Factory, User } from './schemas/main.schema';
 
 describe('MainController', () => {
-  let controller: UserController;
+  let userController: UserController;
+  let userService: UserService;
+  let factoryController: FactoryController;
+  let factoryService: FactoryService;
   const userModel = new User();
+  const factoryModel = new Factory();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [UserController],
+      controllers: [UserController, FactoryController],
       providers: [
         UserService,
+        FactoryService,
         { provide: getModelToken(User.name), useValue: userModel },
+        { provide: getModelToken(Factory.name), useValue: factoryModel },
       ],
     }).compile();
 
-    controller = module.get<UserController>(UserController);
+    userController = module.get<UserController>(UserController);
+    userService = module.get<UserService>(UserService);
+    factoryController = module.get<FactoryController>(FactoryController);
+    factoryService = module.get<FactoryService>(FactoryService);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  describe('Users', () => {
+    it('should be defined', () => {
+      expect(userController).toBeDefined();
+    });
+
+    describe('findAll', () => {
+      it('should return an array of Users', async () => {
+        const users: User[] = [];
+        const createUser = (erp_name: string, name: string) => {
+          const user = new User();
+          user.erp_name = erp_name;
+          user.name = name;
+          return user;
+        };
+        users.push(createUser('ck_ng', 'Ng CK'));
+        users.push(createUser('ck_ng2', 'Ng CK 2'));
+
+        jest
+          .spyOn(userService, 'findAll')
+          .mockImplementation(() => Promise.resolve(users));
+
+        const findAllResult = await userController.findAll();
+
+        expect(findAllResult).toBe(users);
+      });
+    });
   });
 
-  // it('Create user', async () => {
-  //   const payload = new User({
-  //     erp_name: 'ck_ng',
-  //     name: 'CK',
-  //     email: 'sdf@email.com',
-  //   });
-  //   const user = await controller.create(payload);
-  //   expect(user).toMatchObject(payload);
-  // });
+  describe('Factories', () => {
+    it('should be defined', () => {
+      expect(factoryController).toBeDefined();
+    });
 
-  // describe('findAll', () => {
-  //   it('should return an array of tags', async () => {
-  //     const tags: TagEntity[] = [];
-  //     const createTag = (id, name) => {
-  //       const tag = new TagEntity();
-  //       tag.id = id;
-  //       tag.tag = name;
-  //       return tag;
-  //     };
-  //     tags.push(createTag(1, 'angularjs'));
-  //     tags.push(createTag(2, 'reactjs'));
+    describe('findAll', () => {
+      it('should return an array of Factories', async () => {
+        const factories: Factory[] = [];
+        const createFactory = (fac_code: string, name: string) => {
+          const factory = new Factory();
+          factory.fac_code = fac_code;
+          factory.name = name;
+          return factory;
+        };
+        factories.push(createFactory('0001', 'Factory1'));
+        factories.push(createFactory('0001', 'Factory2'));
 
-  //     jest
-  //       .spyOn(tagService, 'findAll')
-  //       .mockImplementation(() => Promise.resolve(tags));
+        jest
+          .spyOn(factoryService, 'findAll')
+          .mockImplementation(() => Promise.resolve(factories));
 
-  //     const findAllResult = await tagController.findAll();
-  //     expect(findAllResult).toBe(tags);
-  //   });
-  // });
+        const findAllResult = await factoryController.findAll();
+
+        expect(findAllResult).toBe(factories);
+      });
+    });
+  });
 });
