@@ -2,7 +2,7 @@
 
 ## Description
 
-New Helpdesk system with NestJs as the web server and MongoDB as the database.
+New Helpdesk system with `NestJs` as the web server and `MongoDB` as the database.
 
 ## Installation
 
