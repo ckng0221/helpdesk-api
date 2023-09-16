@@ -1,3 +1,5 @@
+[![.github/workflows/app-cicd.yml](https://github.com/ckng0221/helpdesk-api/actions/workflows/app-cicd.yml/badge.svg)](https://github.com/ckng0221/helpdesk-api/actions/workflows/app-cicd.yml)
+
 ## Description
 
 New Helpdesk system with NestJs as the web server and MongoDB as the database.
