@@ -1,14 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './main.controller';
 import { UserService } from './main.service';
+import { getModelToken } from '@nestjs/mongoose';
+import { User } from './schemas/main.schema';
 
 describe('MainController', () => {
   let controller: UserController;
+  const userModel = new User();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
-      providers: [UserService],
+      providers: [
+        UserService,
+        { provide: getModelToken(User.name), useValue: userModel },
+      ],
     }).compile();
 
     controller = module.get<UserController>(UserController);
@@ -17,6 +23,16 @@ describe('MainController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
+
+  // it('Create user', async () => {
+  //   const payload = new User({
+  //     erp_name: 'ck_ng',
+  //     name: 'CK',
+  //     email: 'sdf@email.com',
+  //   });
+  //   const user = await controller.create(payload);
+  //   expect(user).toMatchObject(payload);
+  // });
 
   // describe('findAll', () => {
   //   it('should return an array of tags', async () => {

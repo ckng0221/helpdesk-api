@@ -8,8 +8,8 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateFactoryDto, CreateUserDto } from './dto/create-main.dto';
-import { UpdateUserDto } from './dto/update-main.dto';
+import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
+import { CreateFactoryDto, UpdateFactoryDto } from './dto/factory.dto';
 import { FactoryService, UserService } from './main.service';
 
 @ApiTags('main')
@@ -32,17 +32,17 @@ export class UserController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+    return this.userService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+    return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+    return this.userService.remove(id);
   }
 }
 
@@ -66,16 +66,16 @@ export class FactoryController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.factoryService.findOne(+id);
+    return this.factoryService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.factoryService.update(+id, updateUserDto);
+  update(@Param('id') id: string, @Body() updateFactoryDto: UpdateFactoryDto) {
+    return this.factoryService.update(id, updateFactoryDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.factoryService.remove(+id);
+    return this.factoryService.remove(id);
   }
 }

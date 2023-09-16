@@ -2,9 +2,12 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MainModule } from './main/main.module';
+import { MongooseModule } from '@nestjs/mongoose';
+
+const mongoConnection = 'mongodb://localhost/helpdesk';
 
 @Module({
-  imports: [MainModule],
+  imports: [MainModule, MongooseModule.forRoot(mongoConnection)],
   controllers: [AppController],
   providers: [AppService],
 })

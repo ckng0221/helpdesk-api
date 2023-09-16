@@ -1,49 +1,63 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFactoryDto, CreateUserDto } from './dto/create-main.dto';
-import { UpdateFactoryDto, UpdateUserDto } from './dto/update-main.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { CreateFactoryDto, UpdateFactoryDto } from './dto/factory.dto';
+import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
+import { Factory, User } from './schemas/main.schema';
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return createUserDto;
+  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const createdUser = new this.userModel(createUserDto);
+    return createdUser.save();
   }
 
-  findAll() {
-    return `This action returns all main`;
+  async findAll(): Promise<User[]> {
+    return this.userModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} main`;
+  async findOne(id: string): Promise<User> {
+    return this.userModel.findById(id).exec();
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} main`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const user = await this.userModel.findById(id).exec();
+    return await user.updateOne(updateUserDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} main`;
+  async remove(id: string) {
+    await this.userModel.findByIdAndUpdate(id, { delete_flag: true }).exec();
+    return `Deleted user id: ${id}`;
   }
 }
 
 @Injectable()
 export class FactoryService {
-  create(createFactory: CreateFactoryDto) {
-    return 'This action adds a new main';
+  constructor(
+    @InjectModel(Factory.name) private factoryModel: Model<Factory>,
+  ) {}
+
+  async create(createFactoryDto: CreateFactoryDto): Promise<Factory> {
+    const createdFactory = new this.factoryModel(createFactoryDto);
+    return createdFactory.save();
   }
 
-  findAll() {
-    return `This action returns all main`;
+  async findAll(): Promise<Factory[]> {
+    return this.factoryModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} main`;
+  async findOne(id: string): Promise<Factory> {
+    return this.factoryModel.findById(id).exec();
   }
 
-  update(id: number, updateFactory: UpdateFactoryDto) {
-    return `This action updates a #${id} main`;
+  async update(id: string, updateUserDto: UpdateFactoryDto) {
+    const factory = await this.factoryModel.findById(id).exec();
+    return await factory.updateOne(updateUserDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} main`;
+  async remove(id: string) {
+    return await this.factoryModel.deleteOne({ _id: id });
   }
 }
