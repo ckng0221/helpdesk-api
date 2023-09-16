@@ -1,0 +1,1 @@
+export type CLOCK_STATUS = 'RUNNING' | 'PAUSED' | 'STOPPED';

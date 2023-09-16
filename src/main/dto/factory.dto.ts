@@ -13,4 +13,4 @@ class FactoryDto {
 
 export class CreateFactoryDto extends PartialType(FactoryDto) {}
 
-export class UpdateFactoryDto extends PartialType(CreateFactoryDto) {}
+export class UpdateFactoryDto extends PartialType(FactoryDto) {}
