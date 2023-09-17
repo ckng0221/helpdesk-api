@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { getNonNullObject } from '../utils/common';
 import { CreateTicketDto, UpdateTicketDto } from './dto/ticket.dto';
 import { Ticket } from './schemas/ticket.schema';
@@ -15,9 +15,24 @@ export class TicketService {
   }
 
   async findAll(queryParams: object): Promise<Ticket[]> {
-    const filterOptions = getNonNullObject(queryParams);
+    let filterQuery: FilterQuery<Ticket>;
+    const filterOptions: any = getNonNullObject(queryParams);
+    const { open_datetime_start, open_datetime_end, ...otherParams } =
+      filterOptions;
+    filterQuery = { ...otherParams };
+    console.log(filterQuery);
 
-    return this.ticketModel.find(filterOptions).exec();
+    if (open_datetime_start || open_datetime_end) {
+      filterQuery = {
+        ...filterQuery,
+        open_datetime: {
+          $gte: open_datetime_start || new Date(0),
+          $lte: open_datetime_end || new Date(),
+        },
+      };
+    }
+
+    return this.ticketModel.find(filterQuery).exec();
   }
 
   async findOne(id: string): Promise<Ticket> {

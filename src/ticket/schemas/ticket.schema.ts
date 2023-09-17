@@ -5,7 +5,9 @@ import { CLOCK_STATUS } from '../interfaces/ticket.interfaces';
 import { TICKET_MODULES } from '../dto/ticket.dto';
 export type TicketDocument = HydratedDocument<Ticket>;
 
-@Schema()
+@Schema({
+  timestamps: { createdAt: 'open_datetime', updatedAt: 'lastmodified_date' },
+})
 export class Ticket {
   // Common fields with SLA
   id_: mongoose.Types.ObjectId;

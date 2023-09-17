@@ -39,11 +39,26 @@ export class TicketController {
     required: false,
     enum: TICKET_MODULES,
   })
+  @ApiQuery({
+    name: 'open_datetime_start',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'open_datetime_end',
+    required: false,
+  })
   findAll(
     @Query('ticket_status') ticket_status?: string,
     @Query('ticket_module') ticket_module?: string,
+    @Query('open_datetime_start') open_datetime_start?: Date,
+    @Query('open_datetime_end') open_datetime_end?: Date,
   ) {
-    const queryParams = { ticket_status, ticket_module };
+    const queryParams = {
+      ticket_status,
+      ticket_module,
+      open_datetime_start,
+      open_datetime_end,
+    };
 
     return this.ticketService.findAll(queryParams);
   }
