@@ -21,6 +21,7 @@ describe('MainController (e2e)', () => {
 
   afterAll(async () => {
     await moduleFixture.close();
+    await app.close();
   });
 
   describe('User routes', () => {
