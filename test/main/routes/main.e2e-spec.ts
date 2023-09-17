@@ -8,14 +8,19 @@ const mongoConnection = 'mongodb://localhost:27017/helpdesk';
 
 describe('MainController (e2e)', () => {
   let app: INestApplication;
+  let moduleFixture: TestingModule;
 
   beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
+    moduleFixture = await Test.createTestingModule({
       imports: [MainModule, MongooseModule.forRoot(mongoConnection)],
     }).compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
+  });
+
+  afterAll(async () => {
+    await moduleFixture.close();
   });
 
   describe('User routes', () => {
