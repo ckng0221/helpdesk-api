@@ -17,6 +17,7 @@ permissions:
 
 jobs:
   build-test:
+    name: 'Build and run unit tests'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -34,6 +35,7 @@ jobs:
           npm run test --if-present
 
   e2e-test:
+    name: 'Run end-toend tests'
     runs-on: ubuntu-latest
 
     steps:
@@ -59,6 +61,35 @@ jobs:
         env:
           NODE_ENV: test
           CI: true
+
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    needs: ['build-test', 'e2e-test']
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      # - name: Extract metadata (tags, labels) for Docker
+      #   id: meta
+      #   uses: docker/metadata-action@v5
+      #   with:
+      #     images: ckng21/helpdesk-2
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ckng21/helpdesk-2:latest
 
   #   - name: Upload artifact for deployment job
   #     uses: actions/upload-artifact@v3
