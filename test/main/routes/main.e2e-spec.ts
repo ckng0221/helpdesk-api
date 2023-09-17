@@ -4,7 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { MainModule } from '../../../src/main/main.module';
 
-const mongoConnection = 'mongodb://localhost/helpdesk';
+const mongoConnection = 'mongodb://localhost:27017/helpdesk';
 
 describe('MainController (e2e)', () => {
   let app: INestApplication;
