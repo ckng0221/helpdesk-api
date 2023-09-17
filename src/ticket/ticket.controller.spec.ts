@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { TicketController } from './ticket.controller';
 import { TicketService } from './ticket.service';
-import Ticket from './schemas/ticket.schema';
+import { Ticket } from './schemas/ticket.schema';
 
 describe('TicketController', () => {
   let ticketController: TicketController;
