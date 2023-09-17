@@ -8,7 +8,7 @@ export type TicketDocument = HydratedDocument<Ticket>;
 @Schema()
 export class Ticket {
   // Common fields with SLA
-  // id: number;
+  id_: mongoose.Types.ObjectId;
 
   @Prop()
   ticket_id: string;
@@ -64,7 +64,7 @@ export class Ticket {
   @Prop()
   ticket_updatecount: number;
 
-  @Prop()
+  @Prop({ type: Number, min: 0 })
   reassigned_count: number;
 
   @Prop()

@@ -26,7 +26,7 @@ export class TicketService {
 
   async update(id: string, updateTicketDto: UpdateTicketDto) {
     const user = await this.ticketModel.findById(id).exec();
-    return await user.updateOne(updateTicketDto);
+    return await user.updateOne(updateTicketDto, { runValidators: true });
   }
 
   async remove(id: string) {

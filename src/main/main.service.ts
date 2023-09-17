@@ -38,7 +38,7 @@ export class UserService {
 
   async update(id: string, updateUserDto: UpdateUserDto) {
     const user = await this.userModel.findById(id).exec();
-    if (user) return await user.updateOne(updateUserDto);
+    if (user) return await user.updateOne(updateUserDto).exec();
 
     throw new NotFoundException('User not found');
   }
