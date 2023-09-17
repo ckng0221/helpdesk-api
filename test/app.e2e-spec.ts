@@ -17,8 +17,8 @@ describe('AppController (e2e)', () => {
   });
 
   afterAll(async () => {
-    await moduleFixture.close();
-    await app.close();
+    // await moduleFixture.close();
+    // await app.close();
   });
 
   it('/ (GET)', () => {
