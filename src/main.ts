@@ -21,6 +21,7 @@ async function bootstrap() {
     .setTitle('Helpdesk API 2')
     .setDescription('Helpdesk API, with revamped in NestJS')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);

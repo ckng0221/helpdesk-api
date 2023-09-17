@@ -9,6 +9,9 @@ export class User {
   // @Prop()
   // id?: number;
 
+  // @Prop()
+  // _id: string;
+
   @Prop({ required: true })
   erp_name: string;
 
@@ -81,6 +84,9 @@ export class User {
 
   @Prop({ default: false })
   deletion_flag: boolean;
+
+  @Prop()
+  password: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { getNonNullObject } from '../utils/common';
@@ -19,16 +19,31 @@ export class UserService {
   async findAll(queryParams: object): Promise<User[]> {
     const filterOptions = getNonNullObject(queryParams);
 
-    return this.userModel.find(filterOptions).exec();
+    const users = await this.userModel.find(filterOptions).exec();
+    if (users.length) return users;
+
+    throw new NotFoundException('Users not found');
   }
 
   async findOne(id: string): Promise<User> {
-    return this.userModel.findById(id).exec();
+    const user = await this.userModel.findById(id).exec();
+    if (user) return user;
+    console.log(user);
+
+    return user;
+
+    // throw new NotFoundException('User not found');
+  }
+
+  async findByUsername(username: string): Promise<User> {
+    return this.userModel.findOne({ erp_name: username }).exec();
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
     const user = await this.userModel.findById(id).exec();
-    return await user.updateOne(updateUserDto);
+    if (user) return await user.updateOne(updateUserDto);
+
+    throw new NotFoundException('User not found');
   }
 
   async remove(id: string) {
