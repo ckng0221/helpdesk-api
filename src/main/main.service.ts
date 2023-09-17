@@ -19,10 +19,7 @@ export class UserService {
   async findAll(queryParams: object): Promise<User[]> {
     const filterOptions = getNonNullObject(queryParams);
 
-    const users = await this.userModel.find(filterOptions).exec();
-    if (users.length) return users;
-
-    throw new NotFoundException('Users not found');
+    return await this.userModel.find(filterOptions).exec();
   }
 
   async findOne(id: string): Promise<User> {
