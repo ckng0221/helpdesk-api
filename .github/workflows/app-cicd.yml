@@ -50,7 +50,7 @@ jobs:
         with:
           mongodb-version: ${{ env.MONGODB_VERSION }}
           mongodb-replica-set: helpdesk
-          mongodb-port: 42069
+          mongodb-port: 27017
 
       - name: Install dependencies
         run: npm install
