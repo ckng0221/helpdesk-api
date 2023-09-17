@@ -2,7 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { FactoryController, UserController } from './main.controller';
 import { FactoryService, UserService } from './main.service';
 import { getModelToken } from '@nestjs/mongoose';
-import { Factory, User } from './schemas/main.schema';
+import { User } from './schemas/user.schema';
+import { Factory } from './schemas/factory.schema';
 
 describe('MainController', () => {
   let userController: UserController;
