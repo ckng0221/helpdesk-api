@@ -1,6 +1,6 @@
 on:
   push:
-    branches: ['main']
+    branches: ['main', 'develop']
     paths-ignore:
       - '**/**.md'
 
@@ -10,6 +10,7 @@ env:
   AZURE_WEBAPP_NAME: helpdesk-api
   AZURE_WEBAPP_PACKAGE_PATH: '.'
   NODE_VERSION: '18.x'
+  MONGODB_VERSION: '6.0'
 
 permissions:
   contents: read
@@ -31,6 +32,33 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present
+
+  e2e-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.10.0
+        with:
+          mongodb-version: ${{ env.MONGODB_VERSION }}
+          mongodb-replica-set: helpdesk
+          mongodb-port: 42069
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run end-to-end tests
+        run: npm test:e2e
+        env:
+          NODE_ENV: test
 
   #   - name: Upload artifact for deployment job
   #     uses: actions/upload-artifact@v3
