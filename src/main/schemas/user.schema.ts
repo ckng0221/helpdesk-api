@@ -9,8 +9,7 @@ export class User {
   // @Prop()
   // id?: number;
 
-  // @Prop()
-  // _id: string;
+  _id: mongoose.Types.ObjectId;
 
   @Prop({ required: true })
   erp_name: string;

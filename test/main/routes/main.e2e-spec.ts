@@ -1,10 +1,12 @@
 import { INestApplication } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
+import 'dotenv/config';
 import * as request from 'supertest';
 import { MainModule } from '../../../src/main/main.module';
 
-const mongoConnection = 'mongodb://localhost:27017/helpdesk';
+const mongoConnection =
+  process.env.MONGODB_CONNECTION || 'mongodb://127.0.0.1:27017/helpdesk';
 
 describe('MainController (e2e)', () => {
   let app: INestApplication;
