@@ -77,19 +77,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # - name: Extract metadata (tags, labels) for Docker
-      #   id: meta
-      #   uses: docker/metadata-action@v5
-      #   with:
-      #     images: ckng21/helpdesk-2
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ckng21/helpdesk-2:latest
+          tags: ckng21/helpdesk2:latest
 
   #   - name: Upload artifact for deployment job
   #     uses: actions/upload-artifact@v3
