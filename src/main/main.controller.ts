@@ -8,11 +8,12 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { CreateFactoryDto, UpdateFactoryDto } from './dto/factory.dto';
 import { FactoryService, UserService } from './main.service';
 
+@ApiBearerAuth()
 @ApiTags('main')
 @Controller({
   version: '1',
@@ -63,7 +64,7 @@ export class UserController {
     return this.userService.remove(id);
   }
 }
-
+@ApiBearerAuth()
 @ApiTags('main')
 @Controller({
   version: '1',

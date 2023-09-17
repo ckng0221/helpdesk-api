@@ -47,7 +47,7 @@ class UserDto {
   is_active?: boolean;
 
   @ApiProperty({ default: false })
-  delete_flag?: boolean;
+  deletion_flag?: boolean;
 
   @ApiProperty()
   is_out_of_office?: boolean;
@@ -80,4 +80,4 @@ class UserDto {
 
 export class CreateUserDto extends PartialType(UserDto) {}
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {}
+export class UpdateUserDto extends PartialType(UserDto) {}

@@ -9,6 +9,9 @@ export class User {
   // @Prop()
   // id?: number;
 
+  // @Prop()
+  // _id: string;
+
   @Prop({ required: true })
   erp_name: string;
 
@@ -80,22 +83,10 @@ export class User {
   department?: string[];
 
   @Prop({ default: false })
-  delete_flag: boolean;
+  deletion_flag: boolean;
+
+  @Prop()
+  password: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-
-// Factory
-@Schema()
-export class Factory {
-  @Prop({ required: true })
-  fac_code: string;
-
-  @Prop()
-  name: string;
-
-  @Prop({ default: true })
-  is_active?: boolean;
-}
-
-export const FactorySchema = SchemaFactory.createForClass(Factory);
