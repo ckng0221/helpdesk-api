@@ -5,17 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
+      "name": "Node Debugger",
       "type": "node",
       "request": "launch",
-      "name": "Debug Nest Framework",
-      "args": ["${workspaceFolder}/src/main.ts"],
-      "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
-      "sourceMaps": true,
-      "cwd": "${workspaceRoot}",
-      "protocol": "inspector",
-      "restart": true
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run-script", "start:dev"]
     }
   ]
 }
